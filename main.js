@@ -30,9 +30,6 @@ Vue.component("product",{
                     @mouseover="updateImage(index)">
                 </div>
 
-                <div class="cart">
-                    <p>Cart{{cart}}</p>
-                </div>
                 <!-- // usar v-on es lo mismo que @ -->
                 <button v-on:click="addToCart"
                         :disabled="!inStock"
@@ -61,13 +58,12 @@ Vue.component("product",{
                     variantImage:       "img/vmSocks-blue-onWhite.jpg",
                     variantQuantity:    0
                 }
-            ],
-            cart:       0
+            ]
         }
     },
     methods:{
         addToCart(){
-            this.cart += 1
+            this.$emit('add-to-cart',this.variants[this.selectedVariant].variantId)
         },
         updateImage(index){
             this.selectedVariant = index
@@ -97,6 +93,12 @@ Vue.component("product",{
 var app = new Vue({
     el:"#app",
     data:{
-        premium:true
+        premium:true,
+        cart:[]
+    },
+    methods:{
+        updateCart(id){
+            this.cart.push(id)
+        }
     }
 })
